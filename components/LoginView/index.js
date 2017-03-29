@@ -1,12 +1,7 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react'
 import {
     Alert,
+    Keyboard,
     AsyncStorage,
     StyleSheet,
     Text,
@@ -37,7 +32,10 @@ export default class LoginView extends Component {
             if (token) {
                 try {
                     await AsyncStorage.setItem('token', token)
+                    this.props.login()
+                    Keyboard.dismiss()
                 } catch (error) {
+                    console.log(error)
                     Alert.alert('Error with authentication!')
                 }
             } else {
@@ -49,17 +47,7 @@ export default class LoginView extends Component {
              Alert.alert('Error!')
         }
     }
-
-    async getToken() {
-        try {
-            let token = await AsyncStorage.getItem('token')
-            return token
-        } catch (err) {
-            return false
-            console.log(err)
-        }
-    }
-
+    
     render() {
         return (
             <View style={styles.container}>
